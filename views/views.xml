@@ -1,0 +1,48 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="payme.list">
+      <field name="name">Payme list</field>
+      <field name="model">payme.payme</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="payme.action_window">
+      <field name="name">Payme window</field>
+      <field name="res_model">payme.payme</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- server action to the one above -->
+    <record model="ir.actions.server" id="payme.action_server">
+      <field name="name">Payme server</field>
+      <field name="model_id" ref="model_payme_payme"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+
+
+    <!-- Top menu item -->
+    <menuitem name="Payme" id="payme.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="Menu 1" id="payme.menu_1" parent="payme.menu_root"/>
+    <menuitem name="Menu 2" id="payme.menu_2" parent="payme.menu_root"/>
+    <!-- actions -->
+    <menuitem name="List" id="payme.menu_1_list" parent="payme.menu_1"
+              action="payme.action_window"/>
+    <menuitem name="Server to list" id="payme" parent="payme.menu_2"
+              action="payme.action_server"/>
+  </data>
+</odoo>
